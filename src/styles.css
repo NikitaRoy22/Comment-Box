@@ -1,0 +1,87 @@
+* {
+  font-family: Monaco, sans-serif;
+}
+
+.App {
+  margin-top: 20px;
+  width: fit-content;
+}
+
+.commentContainer {
+  margin-top: 6px;
+  background-color: #7599fbe0;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 10px;
+  width: 400px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.commentContainer:hover {
+  background-color: rgba(91, 159, 249, 0.762)
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.inputContainer > span {
+  margin-top: 5px;
+}
+
+.inputContainer__input {
+  margin: 6px 0 0px 0;
+  padding: 5px;
+  display: flex;
+  border: 1px solid rgb(32, 2, 2);
+  align-items:start;
+  justify-content: space-between;
+  cursor: pointer;
+  border-radius: 2px;
+  width: 100vh;
+  height: 50px;
+  background-color: #93baf16c;
+}
+
+.first_input {
+  margin: 0;
+}
+
+.commentContainer > span {
+  margin: 0 5px;
+}
+
+.reply {
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 5px;
+  color: #000000;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit{
+  color: green;
+}
+
+.save{
+  color: green;
+}
+
+.cancel{
+  color: red;
+}
+
+.delete{
+  color: red;
+}
+
+.comment {
+  color: #000000;
+  background-color: #7599fbe0;
+  border: 2px solid #569dff;
+  letter-spacing: 0.8px;
+}
