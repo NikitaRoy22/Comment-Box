@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import Action from "./Action";
-import { ReactComponent as DownArrow } from "../assets/down-arrow.svg";
-import { ReactComponent as UpArrow } from "../assets/up-arrow.svg";
 
 const Comment = ({
   handleInsertNode,
@@ -12,7 +10,7 @@ const Comment = ({
   const [input, setInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const [expand, setExpand] = useState(false);
+  const [starred, setStarred] = useState(false); // State to track whether the comment is starred
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -20,7 +18,6 @@ const Comment = ({
   }, [editMode]);
 
   const handleNewComment = () => {
-    setExpand(!expand);
     setShowInput(true);
   };
 
@@ -28,7 +25,6 @@ const Comment = ({
     if (editMode) {
       handleEditNode(comment.id, inputRef?.current?.innerText);
     } else {
-      setExpand(true);
       handleInsertNode(comment.id, input);
       setShowInput(false);
       setInput("");
@@ -41,8 +37,12 @@ const Comment = ({
     handleDeleteNode(comment.id);
   };
 
+  const toggleStar = () => {
+    setStarred(!starred); // Toggle the state of starred
+  };
+
   return (
-    <div>
+    <div className="style">
       <div className={comment.id === 1 ? "inputContainer" : "commentContainer"}>
         {comment.id === 1 ? (
           <>
@@ -94,9 +94,7 @@ const Comment = ({
                 <>
                   <Action
                     className="reply"
-                    type={
-                      "REPLY"
-                    }
+                    type="REPLY"
                     handleClick={handleNewComment}
                   />
                   <Action
@@ -111,6 +109,15 @@ const Comment = ({
                     type="DELETE"
                     handleClick={handleDelete}
                   />
+                  {/* Star action */}
+                  <span
+                    className={`reply star ${starred ? "glow" : ""}`} // Apply glow class if starred
+                    type="STAR"
+                    onClick={toggleStar} // Toggle starred state on click
+                  >
+                    {" "}
+                    &#9733;
+                  </span>
                 </>
               )}
             </div>
@@ -118,7 +125,7 @@ const Comment = ({
         )}
       </div>
 
-      <div style={{ display: expand ? "block" : "none", paddingLeft: 25 }}>
+      <div style={{ paddingLeft: 25 }}>
         {showInput && (
           <div className="inputContainer">
             <input
@@ -129,27 +136,24 @@ const Comment = ({
             />
             <Action className="reply" type="REPLY" handleClick={onAddComment} />
             <Action
-              className="reply"
+              className="reply cancel"
               type="CANCEL"
               handleClick={() => {
                 setShowInput(false);
-                if (!comment?.items?.length) setExpand(false);
               }}
             />
           </div>
         )}
 
-        {comment?.items?.map((cmnt) => {
-          return (
-            <Comment
-              key={cmnt.id}
-              handleInsertNode={handleInsertNode}
-              handleEditNode={handleEditNode}
-              handleDeleteNode={handleDeleteNode}
-              comment={cmnt}
-            />
-          );
-        })}
+        {comment?.items?.map((cmnt) => (
+          <Comment
+            key={cmnt.id}
+            handleInsertNode={handleInsertNode}
+            handleEditNode={handleEditNode}
+            handleDeleteNode={handleDeleteNode}
+            comment={cmnt}
+          />
+        ))}
       </div>
     </div>
   );
